@@ -13,6 +13,9 @@ function love.load()
 
 	--Sprites 
 	SpriteShip = love.graphics.newImage("assets/sprites/ship.png")
+	ShipWidth = 20
+	ShipHeight = 10
+	ShipRotation = 0 -- In radians
 
 	--Audio
 	SoundMove = love.audio.newSource("assets/sound/move.wav", "static") --Loads into memory, DONT LOAD LARGE SOUNDS INTO MEMORY
@@ -20,8 +23,8 @@ function love.load()
 	SoundBoom = love.audio.newSource("assets/sound/boom.wav", "static")
 
 	-- Position
-	ShipXpos = 100
-	ShipYpos = 50
+	ShipXPos = 100
+	ShipYPos = 50
 
 	-- Velocity
 	ShipDX = 40
@@ -29,7 +32,7 @@ function love.load()
 
 end
 
-function love.update()
+function love.update(dt)
 	if GameState == "menu" then
 		DisplayText = "New Asteroid (Name TBD)"
 		ControlText = "Up/W - Boost\nLeft/A - Turn Left\nRight/D - Turn Right\nEsc - Exit"
@@ -37,15 +40,44 @@ function love.update()
 		CopyrightText = "QuarkInAnarchy (c)\n MIT License"
 
 		-- Menu Controls
-		if love.keyboard.isDown("space") then
+		if love.keyboard.isDown("space") then -- Start Game 
 			GameState = "game"
 			DisplayText = ""
 		end
-		if love.keyboard.isDown("escape") then
+		if love.keyboard.isDown("escape") then -- Leave Game
 			love.event.quit()
 		end
 	elseif GameState == "game" then
 
+		-- Ship Controls --
+
+		-- Game Control
+		if love.keyboard.isDown("escape") then --Leave Game
+			love.event.quit()
+		end
+
+		--Rotation Control 
+		if love.keyboard.isDown("d") or love.keyboard.isDown("right") then --Turn Right
+			ShipRotation = ShipRotation + 5 * dt
+		elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then -- Turn Left 
+			ShipRotation = ShipRotation - 5 * dt
+		end
+
+		--Forward Movement
+		if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
+			ShipDX = math.cos(ShipRotation) * 100
+			ShipDY = math.sin(ShipRotation) * 100
+
+			ShipXPos = ShipXPos + ShipDX * dt
+			ShipYPos = ShipYPos + ShipDY * dt
+
+			-- if not SoundMove:isPlaying() then
+			-- 	SoundMove:play()
+			-- end
+		end
+		-- if SoundMove:isPlaying() then
+		-- 	SoundMove:stop()
+		-- end
 	end
 end
 
@@ -56,6 +88,11 @@ function love.draw()
 		love.graphics.printf(DisplayText2, 0, 400, 900, "center")
 		love.graphics.printf(CopyrightText, 0, 800, 900, "center")
 	elseif GameState == "game" then
-		
+		love.graphics.draw(SpriteShip, ShipXPos, ShipYPos, ShipRotation, ShipWidth / SpriteShip:getWidth(), ShipHeight / SpriteShip:getHeight(), SpriteShip:getWidth() / 2, SpriteShip:getHeight() / 2)
 	end
+
+	if DisplayText ~= "" then
+		love.graphics.printf(DisplayText, 0, 50, 600, "center")
+	end
+
 end
