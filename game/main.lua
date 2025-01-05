@@ -1,3 +1,7 @@
+-- main.lua
+
+local Ship = require("ship")
+
 function love.load()
     -- Fonts
     Font = love.graphics.newImageFont("assets/Pixelfont.png",
@@ -9,29 +13,8 @@ function love.load()
     DisplayText = ""
     GameState = "menu"
 
-    -- Preload Sprites
-    SpriteShipNormal = love.graphics.newImage("assets/sprites/ship.png")
-    SpriteShipMoving = love.graphics.newImage("assets/sprites/shipmove.png")
-    SpriteShip = SpriteShipNormal -- Default sprite
-
-    ShipWidth = 20
-    ShipHeight = 10
-    ShipRotation = 0 -- In radians
-
-    -- Audio
-    SoundMove = love.audio.newSource("assets/sound/move.wav", "static")
-    SoundShoot = love.audio.newSource("assets/sound/shoot.wav", "static")
-    SoundBoom = love.audio.newSource("assets/sound/boom.wav", "static")
-
-    -- Position
-    ShipXPos = 100
-    ShipYPos = 50
-
-    -- Velocity
-    ShipDX = 40
-    ShipDY = 60
-
-    ShipMoving = false
+    -- Load the ship module
+    Ship:load()
 end
 
 function love.update(dt)
@@ -50,41 +33,12 @@ function love.update(dt)
             love.event.quit()
         end
     elseif GameState == "game" then
-        -- Ship Controls --
+        -- Update the ship
+        Ship:update(dt)
 
         -- Game Control
-        if love.keyboard.isDown("escape") then -- Leave Game
+        if love.keyboard.isDown("escape") then
             love.event.quit()
-        end
-
-        -- Rotation Control 
-        if love.keyboard.isDown("d") or love.keyboard.isDown("right") then -- Turn Right
-            ShipRotation = ShipRotation + 5 * dt
-        elseif love.keyboard.isDown("a") or love.keyboard.isDown("left") then -- Turn Left 
-            ShipRotation = ShipRotation - 5 * dt
-        end
-
-        -- Forward Movement
-        if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
-            ShipDX = math.cos(ShipRotation) * 100
-            ShipDY = math.sin(ShipRotation) * 100
-
-            ShipXPos = ShipXPos + ShipDX * dt
-            ShipYPos = ShipYPos + ShipDY * dt
-
-            ShipMoving = true
-
-            if not SoundMove:isPlaying() then
-                SoundMove:play()
-            end
-            SpriteShip = SpriteShipMoving
-        else
-            ShipMoving = false
-            SpriteShip = SpriteShipNormal
-
-            if SoundMove:isPlaying() then
-                SoundMove:stop()
-            end
         end
     end
 end
@@ -96,11 +50,8 @@ function love.draw()
         love.graphics.printf(DisplayText2, 0, 400, 900, "center")
         love.graphics.printf(CopyrightText, 0, 800, 900, "center")
     elseif GameState == "game" then
-        love.graphics.draw(SpriteShip, ShipXPos, ShipYPos, ShipRotation, 
-            ShipWidth / SpriteShip:getWidth(), 
-            ShipHeight / SpriteShip:getHeight(), 
-            SpriteShip:getWidth() / 2, 
-            SpriteShip:getHeight() / 2)
+        -- Draw the ship
+        Ship:draw()
     end
 
     if DisplayText ~= "" then
