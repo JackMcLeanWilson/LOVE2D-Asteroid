@@ -13,7 +13,7 @@ function love.load()
     DisplayText = ""
     GameState = "menu"
 
-    -- Load the ship module
+    -- Load modules
     Ship:load()
 end
 
@@ -33,7 +33,7 @@ function love.update(dt)
             love.event.quit()
         end
     elseif GameState == "game" then
-        -- Update the ship
+        -- Update ship 
         Ship:update(dt)
 
         -- Game Control
@@ -50,7 +50,6 @@ function love.draw()
         love.graphics.printf(DisplayText2, 0, 400, 900, "center")
         love.graphics.printf(CopyrightText, 0, 800, 900, "center")
     elseif GameState == "game" then
-        -- Draw the ship
         Ship:draw()
     end
 
