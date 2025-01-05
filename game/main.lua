@@ -34,7 +34,7 @@ end
 
 function love.update(dt)
 	if GameState == "menu" then
-		DisplayText = "New Asteroid (Name TBD)"
+		TitleText = "New Asteroid (Name TBD)"
 		ControlText = "Up/W - Boost\nLeft/A - Turn Left\nRight/D - Turn Right\nEsc - Exit"
 		DisplayText2 = "[] Press Space To Start! []"
 		CopyrightText = "QuarkInAnarchy (c)\n MIT License"
@@ -70,20 +70,20 @@ function love.update(dt)
 
 			ShipXPos = ShipXPos + ShipDX * dt
 			ShipYPos = ShipYPos + ShipDY * dt
-
-			-- if not SoundMove:isPlaying() then
-			-- 	SoundMove:play()
-			-- end
+			if not SoundMove:isPlaying() then
+				SoundMove:play()
+			end
 		end
-		-- if SoundMove:isPlaying() then
-		-- 	SoundMove:stop()
-		-- end
+	else
+		if SoundMove:isPlaying() then
+			SoundMove:stop()
+		end
 	end
 end
 
 function love.draw()
 	if GameState == "menu" then
-		love.graphics.printf(DisplayText, 0, 50, 900, "center")
+		love.graphics.printf(TitleText, 0, 50, 900, "center")
 		love.graphics.printf(ControlText, 0, 250, 900, "center")
 		love.graphics.printf(DisplayText2, 0, 400, 900, "center")
 		love.graphics.printf(CopyrightText, 0, 800, 900, "center")
