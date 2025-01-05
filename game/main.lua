@@ -33,7 +33,7 @@ function love.update()
 	if GameState == "menu" then
 		DisplayText = "New Asteroid (Name TBD)"
 		ControlText = "Up/W - Boost\nLeft/A - Turn Left\nRight/D - Turn Right\nEsc - Exit"
-		DisplayText2 = "Press Space To Start!"
+		DisplayText2 = "Press [] Space [] To Start!"
 		CopyrightText = "QuarkInAnarchy (c)\n MIT License"
 
 		-- Menu Controls
