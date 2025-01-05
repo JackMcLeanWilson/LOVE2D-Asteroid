@@ -31,7 +31,19 @@ end
 
 function love.update()
 	if GameState == "menu" then
-	
+		DisplayText = "New Asteroid (Name TBD)"
+		ControlText = "Up/W - Boost\nLeft/A - Turn Left\nRight/D - Turn Right\nEsc - Exit"
+		DisplayText2 = "Press Space To Start!"
+		CopyrightText = "QuarkInAnarchy (c)\n MIT License"
+
+		-- Menu Controls
+		if love.keyboard.isDown("space") then
+			GameState = "game"
+			DisplayText = ""
+		end
+		if love.keyboard.isDown("escape") then
+			love.event.quit()
+		end
 	elseif GameState == "game" then
 
 	end
@@ -39,7 +51,10 @@ end
 
 function love.draw()
 	if GameState == "menu" then
-	
+		love.graphics.printf(DisplayText, 0, 50, 600, "center")
+		love.graphics.printf(ControlText, 0, 150, 600, "center")
+		love.graphics.printf(DisplayText2, 0, 300, 600, "center")
+		love.graphics.printf(CopyrightText, 0, 500, 600, "center")
 	elseif GameState == "game" then
 		
 	end
