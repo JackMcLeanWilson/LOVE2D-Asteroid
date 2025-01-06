@@ -1,5 +1,8 @@
 local Ship = {}
 
+local Laser = require("laser")
+Ship.lasers = {}
+
 -- Initialization
 function Ship:load()
     -- Position
@@ -21,6 +24,9 @@ function Ship:load()
     self.height = 10
     self.rotation = 0
 
+	--Weapons
+	self.shootCooldown = 0
+
     -- Sprites
     self.spriteNormal = love.graphics.newImage("assets/sprites/ship.png")
     self.spriteMoving = love.graphics.newImage("assets/sprites/shipmove.png")
@@ -31,6 +37,11 @@ function Ship:load()
 	self.soundMove:setVolume(0) -- Set to 0 because its annoying
 
     self.isMoving = false
+end
+
+function Ship:shoot()
+	local laser = Laser.new(self.x, self.y, self.rotation) -- Creates
+	table.insert(self.lasers, laser) -- Stores
 end
 
 function Ship:update(dt)
@@ -60,6 +71,24 @@ function Ship:update(dt)
             self.soundMove:stop()
         end
     end
+
+	-- Shoot Controls
+	if love.keyboard.isDown("space") and self.shootCooldown == 0 then
+		self:shoot()
+		self.shootCooldown = 1
+	end
+
+	-- Laser Update
+	self.shootCooldown = math.max(0, self.shootCooldown - dt)
+
+	for i = self.lasers, 1, -1 do
+		local laser = self.lasers[i]
+		laser:update(dt)
+
+		if laser.isGone then
+			table.remove(self.laser, i)
+		end
+	end
 
     -- Deceleration
     if not self.isMoving then
@@ -95,11 +124,11 @@ end
 
 -- Draw Ship
 function Ship:draw()
-    love.graphics.draw(self.sprite, self.x, self.y, self.rotation,
-        self.width / self.sprite:getWidth(),
-        self.height / self.sprite:getHeight(),
-        self.sprite:getWidth() / 2,
-        self.sprite:getHeight() / 2)
+    love.graphics.draw(self.sprite, self.x, self.y, self.rotation, self.width / self.sprite:getWidth(), self.height / self.sprite:getHeight(), self.sprite:getWidth() / 2, self.sprite:getHeight() / 2)
+
+	for _, laser in ipairs(self.lasers) do
+		laser:draw()
+	end
 end
 
 return Ship
