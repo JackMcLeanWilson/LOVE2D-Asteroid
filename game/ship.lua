@@ -54,7 +54,7 @@ function Ship:update(dt)
 
     -- Boost Controls
     if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
-        self.vx = self.vx + math.cos(self.rotation) * self.acceleration * dt
+        self.vx = self.vx + math.cos(self.rotation) * self.acceleration * dt -- Determines velocity based on current rotation taking into account acceleration
         self.vy = self.vy + math.sin(self.rotation) * self.acceleration * dt
 
         self.isMoving = true
@@ -81,7 +81,7 @@ function Ship:update(dt)
 	-- Laser Update
 	self.shootCooldown = math.max(0, self.shootCooldown - dt)
 
-	for i = self.lasers, 1, -1 do
+	for i = self.lasers, 1, -1 do -- Where 1 is the minimum, -1 the increment 
 		local laser = self.lasers[i]
 		laser:update(dt)
 
@@ -92,11 +92,11 @@ function Ship:update(dt)
 
     -- Deceleration
     if not self.isMoving then
-        local currentSpeed = math.sqrt(self.vx^2 + self.vy^2)
+        local currentSpeed = math.sqrt(self.vx^2 + self.vy^2) -- Calculates speed based of pythagoras therom
         if currentSpeed > 0 then
             
             local friction = self.deceleration * dt
-            local newSpeed = math.max(0, currentSpeed - friction)
+            local newSpeed = math.max(0, currentSpeed - friction) --Choses highest speed between 0 and friction calculation to ensure no negative speed
 
             self.vx = (self.vx / currentSpeed) * newSpeed
             self.vy = (self.vy / currentSpeed) * newSpeed
