@@ -82,6 +82,19 @@ function Ship:update(dt)
     -- Update position
     self.x = self.x + self.vx * dt
     self.y = self.y + self.vy * dt
+
+	-- Loop Ship
+	if self.x > (love.graphics.getWidth() + 10) then
+		self.x = - 5
+	elseif self.x < (-10 ) then
+		self.x = (love.graphics.getWidth() + 5)
+	end
+
+	if self.y > (love.graphics.getHeight() + 10) then
+		self.y = -5
+	elseif self.y < (-10) then
+		self.y = (love.graphics.getHeight + 5)
+	end
 end
 
 -- Draw Ship
