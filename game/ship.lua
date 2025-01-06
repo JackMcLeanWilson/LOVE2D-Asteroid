@@ -10,11 +10,11 @@ function Ship:load()
     self.vx = 0
     self.vy = 0
 
+	self.speed = 0
+
     -- Acceleration
     self.acceleration = 100
-
-    -- Deceleration (sliding effect)
-    self.deceleration = 30
+    self.deceleration = 50
 
     -- Dimensions
     self.width = 20
@@ -34,7 +34,6 @@ function Ship:load()
 end
 
 function Ship:update(dt)
-
     -- Rotation Controls
     if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
         self.rotation = self.rotation + 5 * dt
@@ -44,7 +43,6 @@ function Ship:update(dt)
 
     -- Boost Controls
     if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
-        
         self.vx = self.vx + math.cos(self.rotation) * self.acceleration * dt
         self.vy = self.vy + math.sin(self.rotation) * self.acceleration * dt
 
@@ -65,17 +63,14 @@ function Ship:update(dt)
 
     -- Deceleration
     if not self.isMoving then
-        local speed = math.sqrt(self.vx^2 + self.vy^2) -- Current speed
-        if speed > 0 then
+        local currentSpeed = math.sqrt(self.vx^2 + self.vy^2)
+        if currentSpeed > 0 then
             
-            local decelerationAmount = self.deceleration * dt
-            speed = math.max(0, speed - decelerationAmount)
+            local friction = self.deceleration * dt
+            local newSpeed = math.max(0, currentSpeed - friction)
 
-            
-            local directionX = self.vx / speed
-            local directionY = self.vy / speed
-            self.vx = directionX * speed
-            self.vy = directionY * speed
+            self.vx = (self.vx / currentSpeed) * newSpeed
+            self.vy = (self.vy / currentSpeed) * newSpeed
         end
     end
 
@@ -83,19 +78,20 @@ function Ship:update(dt)
     self.x = self.x + self.vx * dt
     self.y = self.y + self.vy * dt
 
-	-- Loop Ship
-	if self.x > (love.graphics.getWidth() + 10) then
-		self.x = - 5
-	elseif self.x < (-10 ) then
-		self.x = (love.graphics.getWidth() + 5)
-	end
+    -- Loop Ship
+    if self.x > (love.graphics.getWidth() + 10) then
+        self.x = -5
+    elseif self.x < -10 then
+        self.x = love.graphics.getWidth() + 5
+    end
 
-	if self.y > (love.graphics.getHeight() + 10) then
-		self.y = -5
-	elseif self.y < (-10) then
-		self.y = (love.graphics.getHeight + 5)
-	end
+    if self.y > (love.graphics.getHeight() + 10) then
+        self.y = -5
+    elseif self.y < -10 then
+        self.y = love.graphics.getHeight() + 5
+    end
 end
+
 
 -- Draw Ship
 function Ship:draw()
