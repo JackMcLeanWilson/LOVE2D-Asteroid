@@ -21,11 +21,11 @@ function love.update(dt)
     if GameState == "menu" then
         TitleText = "New Asteroid (Name TBD)"
         ControlText = "Up/W - Boost\nLeft/A - Turn Left\nRight/D - Turn Right\nSpace - Shoot\nEsc - Exit"
-        DisplayText2 = "[] Press Space To Start! []"
+        DisplayText2 = "[] Press Enter To Start! []"
         CopyrightText = "QuarkInAnarchy (c)\n MIT License"
 
         -- Menu Controls
-        if love.keyboard.isDown("space") then -- Start Game 
+        if love.keyboard.isDown("return") then -- Start Game 
             GameState = "game"
             DisplayText = ""
         end
