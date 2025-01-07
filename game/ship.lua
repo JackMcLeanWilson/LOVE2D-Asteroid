@@ -34,14 +34,16 @@ function Ship:load()
 
     -- Sounds
     self.soundMove = love.audio.newSource("assets/sound/move.wav", "static")
+	self.soundShoot = love.audio.newSource("assets/sound/shoot.wav", "static")
 	self.soundMove:setVolume(0) -- Set to 0 because its annoying
 
     self.isMoving = false
 end
 
 function Ship:shoot()
-	local laser = Laser.new(self.x, self.y, self.rotation) -- Creates
-	table.insert(self.lasers, laser) -- Stores
+    local laser = Laser:new(self.x, self.y, self.rotation)
+    table.insert(self.lasers, laser)
+	self.soundShoot:play()
 end
 
 function Ship:update(dt)
@@ -81,12 +83,12 @@ function Ship:update(dt)
 	-- Laser Update
 	self.shootCooldown = math.max(0, self.shootCooldown - dt)
 
-	for i = self.lasers, 1, -1 do -- Where 1 is the minimum, -1 the increment 
+	for i = #self.lasers, 1, -1 do -- Use #self.lasers to get the length of the table
 		local laser = self.lasers[i]
 		laser:update(dt)
-
+	
 		if laser.isGone then
-			table.remove(self.laser, i)
+			table.remove(self.lasers, i)
 		end
 	end
 
