@@ -1,5 +1,3 @@
--- main.lua
-
 local Ship = require("ship")
 local moonshine = require("moonshine")
 local crtEffect
@@ -13,9 +11,9 @@ function love.load()
         "123456789.,!?-+/():;%&`'*#=[]\"")
     love.graphics.setFont(Font)
 
-	-- Shaders
-	crtEffect = moonshine(moonshine.effects.crt)
-	scanlines = moonshine(moonshine.effects.scanlines)
+    -- Shaders
+    crtEffect = moonshine(moonshine.effects.crt)
+    scanlines = moonshine(moonshine.effects.scanlines)
 
     DisplayText = ""
     GameState = "menu"
@@ -25,7 +23,6 @@ function love.load()
 end
 
 function love.update(dt)
-
     if GameState == "menu" then
         TitleText = "Impact Event"
         ControlText = "Up/W - Boost\nLeft/A - Turn Left\nRight/D - Turn Right\nSpace - Shoot\nEsc - Exit"
@@ -35,7 +32,7 @@ function love.update(dt)
         -- Menu Controls
         if love.keyboard.isDown("return") then -- Start Game 
             GameState = "game"
-            DisplayText = ""
+            DisplayText = "Test"
         end
         if love.keyboard.isDown("escape") then -- Leave Game
             love.event.quit()
@@ -52,35 +49,27 @@ function love.update(dt)
 end
 
 function love.draw()
+    -- Apply CRT & scanlines shaders to the entire screen
+    crtEffect(function()
+        scanlines(function()
+            -- Background
+            love.graphics.setColor(0.1, 0.1, 0.1)
+            love.graphics.rectangle("fill", 0, 0, 900, 900)
 
-	-- crtEffect(function()
-    -- 		love.graphics.rectangle("fill", 0, 0, 900, 900)
-    -- end)
+            love.graphics.setColor(1, 1, 1)
+            
+            if GameState == "menu" then
+                love.graphics.printf(TitleText, 0, 50, 900, "center")
+                love.graphics.printf(ControlText, 0, 250, 900, "center")
+                love.graphics.printf(DisplayText2, 0, 400, 900, "center")
+                love.graphics.printf(CopyrightText, 0, 800, 900, "center")
+            elseif GameState == "game" then
+                Ship:draw()
+            end
 
-    if GameState == "menu" then
-		crtEffect(function()
-			scanlines(function()
-				love.graphics.setColor(0.1, 0.1, 0.1)
-				love.graphics.rectangle("fill", 0, 0, 900, 900)
-				love.graphics.setColor(1, 1, 1)
-				love.graphics.printf(TitleText, 0, 50, 900, "center")
-				love.graphics.printf(ControlText, 0, 250, 900, "center")
-				love.graphics.printf(DisplayText2, 0, 400, 900, "center")
-				love.graphics.printf(CopyrightText, 0, 800, 900, "center")
-			end)
-		end)
-    elseif GameState == "game" then
-		crtEffect(function()
-			scanlines(function()
-				love.graphics.setColor(0.1, 0.1, 0.1)
-				love.graphics.rectangle("fill", 0, 0, 900, 900)
-				love.graphics.setColor(1, 1, 1)
-				Ship:draw()
-			end)
-		end)
-    end
-
-    if DisplayText ~= "" then
-        love.graphics.printf(DisplayText, 0, 50, 600, "center")
-    end
+            if DisplayText ~= "" then
+                love.graphics.printf(DisplayText, 0, 50, 900, "center")
+            end
+        end)
+    end)
 end

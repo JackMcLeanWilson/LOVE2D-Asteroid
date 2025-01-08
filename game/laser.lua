@@ -44,13 +44,13 @@ function Laser:update(dt)
     if self.x > (love.graphics.getWidth() + 10) then
         self.x = -5
     elseif self.x < -10 then
-        self.x = love.graphics.getWidth() + 5
+        self.x = love.graphics.getWidth()
     end
 
     if self.y > (love.graphics.getHeight() + 10) then
         self.y = -5
     elseif self.y < -10 then
-        self.y = love.graphics.getHeight() + 5
+        self.y = love.graphics.getHeight()
     end
 end
 
