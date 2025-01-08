@@ -78,7 +78,7 @@ function Ship:update(dt)
 	-- Shoot Controls
 	if love.keyboard.isDown("space") and self.shootCooldown == 0 then
 		self:shoot()
-		self.shootCooldown = 1
+		self.shootCooldown = 0.6
 	end
 
 	-- Laser Update

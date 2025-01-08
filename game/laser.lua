@@ -13,7 +13,7 @@ function Laser:new(x, y, rotation)
 
     -- Laser properties
     obj.speed = 500
-    obj.lifespan = 2.5
+    obj.lifespan = 2
     obj.width = 6
     obj.height = 1
 
@@ -38,6 +38,19 @@ function Laser:update(dt)
     self.timer = self.timer + dt
     if self.timer >= self.lifespan then
         self.isGone = true
+    end
+
+    -- Check bounds (Loop)
+    if self.x > (love.graphics.getWidth() + 10) then
+        self.x = -5
+    elseif self.x < -10 then
+        self.x = love.graphics.getWidth() + 5
+    end
+
+    if self.y > (love.graphics.getHeight() + 10) then
+        self.y = -5
+    elseif self.y < -10 then
+        self.y = love.graphics.getHeight() + 5
     end
 end
 
