@@ -15,7 +15,10 @@ function love.load()
     crtEffect = moonshine(moonshine.effects.crt)
     scanlines = moonshine(moonshine.effects.scanlines)
 
+	-- Score
     DisplayText = ""
+	GameScore = 0
+
     GameState = "menu"
 
     -- Load modules
@@ -32,7 +35,7 @@ function love.update(dt)
         -- Menu Controls
         if love.keyboard.isDown("return") then -- Start Game 
             GameState = "game"
-            DisplayText = "Test"
+            DisplayText = "Score\n"..GameScore --Put score after \n
         end
         if love.keyboard.isDown("escape") then -- Leave Game
             love.event.quit()
@@ -68,7 +71,7 @@ function love.draw()
             end
 
             if DisplayText ~= "" then
-                love.graphics.printf(DisplayText, 0, 50, 900, "center")
+                love.graphics.printf(DisplayText, 750, 50, 50, "right")
             end
         end)
     end)
