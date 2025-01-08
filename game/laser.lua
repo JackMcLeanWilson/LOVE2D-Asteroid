@@ -13,7 +13,7 @@ function Laser:new(x, y, rotation)
 
     -- Laser properties
     obj.speed = 500
-    obj.lifespan = 5
+    obj.lifespan = 2.5
     obj.width = 6
     obj.height = 1
 
@@ -32,7 +32,7 @@ function Laser:update(dt)
     self.y = self.y + math.sin(self.rotation) * self.speed * dt
 
 	-- Update Lifespan
-	
+    self.lifespan = self.lifespan - 0.1 * dt
 
     -- Check lifespan
     self.timer = self.timer + dt
