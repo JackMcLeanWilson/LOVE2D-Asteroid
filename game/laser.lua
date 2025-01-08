@@ -6,7 +6,7 @@ function Laser:new(x, y, rotation)
     setmetatable(obj, self)
     self.__index = self
 
-    local offset = 20 -- Offset the laser's initial position to the front of the ship
+    local offset = 20 -- Offset the laser's initial position
     obj.x = x + math.cos(rotation) * offset
     obj.y = y + math.sin(rotation) * offset
     obj.rotation = rotation or 0

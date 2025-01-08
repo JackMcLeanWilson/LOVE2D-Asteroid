@@ -34,8 +34,9 @@ function Ship:load()
 
     -- Sounds
     self.soundMove = love.audio.newSource("assets/sound/move.wav", "static")
-	self.soundShoot = love.audio.newSource("assets/sound/shoot.wav", "static")
 	self.soundMove:setVolume(0) -- Set to 0 because its annoying
+	self.soundShoot = love.audio.newSource("assets/sound/shoot.wav", "static")
+	self.soundShoot:setVolume(0.2)
 
     self.isMoving = false
 end
