@@ -14,6 +14,7 @@ function Ship:load()
     self.vy = 0
 
 	self.speed = 0
+    self.maxSpeed = 300
 
     -- Acceleration
     self.acceleration = 100
@@ -106,6 +107,13 @@ function Ship:update(dt)
         end
     end
 
+    self.speed = math.sqrt(self.vx^2 + self.vy^2)
+    if self.speed > self.maxSpeed then
+        local scale = self.maxSpeed / self.speed
+        self.vx = self.vx * scale
+        self.vy = self.vy * scale
+    end
+
     -- Update position
     self.x = self.x + self.vx * dt
     self.y = self.y + self.vy * dt
@@ -123,7 +131,6 @@ function Ship:update(dt)
         self.y = love.graphics.getHeight() + 5
     end
 end
-
 
 -- Draw Ship
 function Ship:draw()
