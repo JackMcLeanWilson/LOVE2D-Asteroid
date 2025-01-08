@@ -6,8 +6,8 @@ Ship.lasers = {}
 -- Initialization
 function Ship:load()
     -- Position
-    self.x = 100
-    self.y = 50
+    self.x = 450
+    self.y = 450
 
     -- Velocity
     self.vx = 0
