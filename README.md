@@ -1,4 +1,4 @@
-# New Asteroids (Name TBD)
+# Impact Event
 
 A new take on the popular game "asteroids" build in the .lua framework "Love2D"
 
