@@ -49,7 +49,7 @@ function love.update(dt)
 end
 
 function love.draw()
-    -- Apply CRT & scanlines shaders to the entire screen
+    -- Apply CRT & scanlines shaders to entire screen
     crtEffect(function()
         scanlines(function()
             -- Background
