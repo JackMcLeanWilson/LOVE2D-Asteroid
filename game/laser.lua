@@ -26,10 +26,15 @@ function Laser:new(x, y, rotation)
 end
 
 function Laser:update(dt)
+
+	-- Update Position
     self.x = self.x + math.cos(self.rotation) * self.speed * dt
     self.y = self.y + math.sin(self.rotation) * self.speed * dt
 
-    -- Handle lifespan
+	-- Update Lifespan
+	
+
+    -- Check lifespan
     self.timer = self.timer + dt
     if self.timer >= self.lifespan then
         self.isGone = true
