@@ -1,6 +1,9 @@
 -- main.lua
 
 local Ship = require("ship")
+local moonshine = require("moonshine")
+local crtEffect
+local scanlines
 
 function love.load()
     -- Fonts
@@ -10,6 +13,10 @@ function love.load()
         "123456789.,!?-+/():;%&`'*#=[]\"")
     love.graphics.setFont(Font)
 
+	-- Shaders
+	crtEffect = moonshine(moonshine.effects.crt)
+	scanlines = moonshine(moonshine.effects.scanlines)
+
     DisplayText = ""
     GameState = "menu"
 
@@ -18,6 +25,7 @@ function love.load()
 end
 
 function love.update(dt)
+
     if GameState == "menu" then
         TitleText = "New Asteroid (Name TBD)"
         ControlText = "Up/W - Boost\nLeft/A - Turn Left\nRight/D - Turn Right\nSpace - Shoot\nEsc - Exit"
@@ -44,13 +52,32 @@ function love.update(dt)
 end
 
 function love.draw()
+
+	-- crtEffect(function()
+    -- 		love.graphics.rectangle("fill", 0, 0, 900, 900)
+    -- end)
+
     if GameState == "menu" then
-        love.graphics.printf(TitleText, 0, 50, 900, "center")
-        love.graphics.printf(ControlText, 0, 250, 900, "center")
-        love.graphics.printf(DisplayText2, 0, 400, 900, "center")
-        love.graphics.printf(CopyrightText, 0, 800, 900, "center")
+		crtEffect(function()
+			scanlines(function()
+				love.graphics.setColor(0.1, 0.1, 0.1)
+				love.graphics.rectangle("fill", 0, 0, 900, 900)
+				love.graphics.setColor(1, 1, 1)
+				love.graphics.printf(TitleText, 0, 50, 900, "center")
+				love.graphics.printf(ControlText, 0, 250, 900, "center")
+				love.graphics.printf(DisplayText2, 0, 400, 900, "center")
+				love.graphics.printf(CopyrightText, 0, 800, 900, "center")
+			end)
+		end)
     elseif GameState == "game" then
-        Ship:draw()
+		crtEffect(function()
+			scanlines(function()
+				love.graphics.setColor(0.1, 0.1, 0.1)
+				love.graphics.rectangle("fill", 0, 0, 900, 900)
+				love.graphics.setColor(1, 1, 1)
+				Ship:draw()
+			end)
+		end)
     end
 
     if DisplayText ~= "" then
