@@ -61,12 +61,12 @@ function love.draw()
 
             love.graphics.setColor(1, 1, 1)
             
-            if GameState == "menu" then
+            if GameState == "menu" then -- Main Menu
                 love.graphics.printf(TitleText, 0, 50, 900, "center")
                 love.graphics.printf(ControlText, 0, 250, 900, "center")
                 love.graphics.printf(DisplayText2, 0, 400, 900, "center")
                 love.graphics.printf(CopyrightText, 0, 800, 900, "center")
-            elseif GameState == "game" then
+            elseif GameState == "game" then -- Running Game 
                 Ship:draw()
             end
 
