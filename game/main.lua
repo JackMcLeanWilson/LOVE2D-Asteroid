@@ -30,7 +30,7 @@ function love.update(dt)
         TitleText = "Impact Event"
         ControlText = "Up/W - Boost\nLeft/A - Turn Left\nRight/D - Turn Right\nSpace - Shoot\nEsc - Exit"
         DisplayText2 = "[] Press Enter To Start! []"
-        CopyrightText = "QuarkInAnarchy (c)\n MIT License"
+        CopyrightText = "QuarkInAnarchy (c) 2025\n MIT License"
 
         -- Menu Controls
         if love.keyboard.isDown("return") then -- Start Game 
