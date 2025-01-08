@@ -13,7 +13,7 @@ function Laser:new(x, y, rotation)
 
     -- Laser properties
     obj.speed = 500
-    obj.lifespan = 2
+    obj.lifespan = 2.3
     obj.width = 6
     obj.height = 1
 
