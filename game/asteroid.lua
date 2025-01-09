@@ -12,51 +12,42 @@ local function switch(value)
 	end
 end
 
-function Asteroid:new(x, y, rotation)
+function Asteroid:new()
 	local obj = {}
     setmetatable(obj, self)
     self.__index = self
 
 	-- Position
-	obj.x = x + math.cos(rotation)
-    obj.y = y + math.sin(rotation)
-	obj.rotation = rotation or 0
+	obj.x = nil
+	while obj.x == nil or (obj.x > 350 and obj.x < 550) do
+		obj.x = math.random(900)
+	end
+
+	obj.y = math.random(900)
 
 	-- Velocity 
-	obj.vx = 0
-    obj.vy = 0
+	obj.vx = math.random(-50, 50)
+	obj.vy = math.random(-50, 50)
 
 	-- Asteroid Properties
 	obj.level = 1
 
 	-- Sprites
-	local spriteAlt1 = ("sprites/asteroid1.png")
-	local spriteAlt2 = ("sprites/asteroid2.png")
-	local spriteAlt3 = ("sprites/asteroid3.png")
+	local spriteAlt1 = love.graphics.newImage("sprites/asteroid1.png")
+	local spriteAlt2 = love.graphics.newImage("sprites/asteroid2.png")
+	local spriteAlt3 = love.graphics.newImage("sprites/asteroid3.png")
 
-	-- Set Sprite 
 	SetSprite = math.random(3)
-	switch (SetSprite) {
-		[1] = function()
-			obj.sprite = spriteAlt1
-		end,
+	if SetSprite == 1 then
+		obj.sprite = spriteAlt1
+	elseif SetSprite == 2 then
+		obj.sprite = spriteAlt2
+	elseif SetSprite == 3 then
+		obj.sprite = spriteAlt3
+	end
 
-		[2] = function()
-			obj.sprite = spriteAlt2
-		end,
-
-		[3] = function()
-			obj.sprite = spriteAlt3
-		end
-	}
-
-	-- if SelectSprite == 1 then
-	-- 	obj.sprite = spriteAlt1
-	-- elseif SelectSprite == 2 then
-	-- 	obj.sprite = spriteAlt2
-	-- elseif SelectSprite == 3 then
-	-- 	obj.sprite = spriteAlt3
-	-- end
+	obj.width = obj.sprite:getWidth()
+	obj.height = obj.sprite:getHeight()
 
 end
 
